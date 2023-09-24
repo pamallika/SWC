@@ -1,19 +1,16 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\LayoutController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserEventController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
+Route::post('/login', [UserController::class, 'login']);
+Route::post('/register', [UserController::class, 'register']);
+Route::resource('users', UserController::class)->only(['show', 'update', 'destroy']);
+Route::resource('events', EventController::class);
+Route::resource('user-event', UserEventController::class)->only(['store', 'destroy']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('auth:sanctum')->group(function () {
+//});

@@ -13,4 +13,13 @@ class Event extends Model
         'title',
         'descr',
     ];
+
+    public function creator() {
+        return $this->hasOne(User::class);
+    }
+
+    public function subscribers() {
+        return $this->belongsToMany(User::class);
+    }
+
 }

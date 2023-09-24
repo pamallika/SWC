@@ -12,14 +12,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'first_name',
-        'second_name',
+        'last_name',
         'login',
         'password',
         'birthday',
@@ -42,4 +37,12 @@ class User extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    public function events() {
+        return $this->hasMany(Event::class);
+    }
+
+    public function eventsSubscribedTo() {
+        return $this->belongsToMany(Event::class);
+    }
 }

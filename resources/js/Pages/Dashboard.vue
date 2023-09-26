@@ -1,22 +1,52 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import {Head} from '@inertiajs/vue3';
+import EventList from "@/Components/EventList.vue";
+import EventData from "@/Components/EventData.vue";
 </script>
 
 <template>
     <Head title="Dashboard" />
-
-    <AuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
-        </template>
-
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">You're logged in!</div>
-                </div>
+    <div class="content">
+        <div class="left-sidebar">
+            <div class="event-list all-event-list">
+                <h2>Все события</h2>
+                <EventList :events="events"></EventList>
+            </div>
+            <div class="event-list user-event-list">
+                <h2>Мои события</h2>
+                <EventList :events="events"></EventList>
             </div>
         </div>
-    </AuthenticatedLayout>
+        <div class="main">
+            <EventData></EventData>
+        </div>
+    </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            events: []
+        }
+    },
+    async mounted() {
+        const res = (await fetch('http://127.0.0.1:8000/api/events'));
+        this.events = await res.json();
+    }
+}
+</script>
+<style>
+.left-sidebar{
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    border: 1px black solid;
+    max-width: 25vw;
+}
+.event-list{
+    min-height: 10vh;
+    margin: 1rem 0;
+    padding: 0 1rem;
+}
+</style>

@@ -8,9 +8,10 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\PublicFieldsUserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
+use function App\Helpers\serverErrorResponse;
+use function App\Helpers\swcResponse;
 
 class UserController extends Controller
 {
@@ -18,7 +19,7 @@ class UserController extends Controller
      * @param \App\Http\Requests\User\LoginRequest $request
      * @return JsonResponse
      */
-    public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
+    public function login(LoginRequest $request): JsonResponse
     {
         $data = $request->validated();
 
@@ -28,53 +29,61 @@ class UserController extends Controller
 
         /** @var User $user */
         $user = $request->user();
-        $token = $user->createToken('api')->plainTextToken;
-        return response()->json(['token' => $token]);
+        try {
+            $token = $user->createToken('api')->plainTextToken;
+        } catch (\Throwable $error) {
+            return serverErrorResponse($error->getMessage());
+        }
+        return swcResponse(['token' => $token]);
     }
 
-    public function register(RegisterRequest $request)
+    public function register(RegisterRequest $request): JsonResponse
     {
-        $user = User::create($request->validated());
-        return view('index', $user->toArray());
-    }
-    /**
-     * @param \App\Http\Requests\User\RegisterRequest $request
-     * @return mixed
-     */
-    public function store(RegisterRequest $request): User
-    {
-        $user = User::create($request->validated());
-        return new User($user);
+        try {
+            $user = User::create($request->validated());
+        } catch (\Throwable $error) {
+            return serverErrorResponse($error->getMessage());
+        }
+        return swcResponse(['token' => $user->createToken('api')->plainTextToken]);
     }
 
     /**
      * @param User $user
-     * @return PublicFieldsUserResource
+     * @return JsonResponse
      */
-    public function show(User $user): PublicFieldsUserResource
+    public function show(User $user): JsonResponse
     {
-        return PublicFieldsUserResource::make($user);
+        return swcResponse(PublicFieldsUserResource::make($user)->toArray());
     }
 
     /**
      * @param UpdateUserRequest $request
      * @param User $user
-     * @return User
+     * @return JsonResponse
      */
-    public function update(UpdateUserRequest $request, User $user): User
+    public function update(UpdateUserRequest $request, User $user): JsonResponse
     {
-        $user->update($request->validated());
-        return $user;
+        try {
+            $user->update($request->validated());
+        } catch (\Throwable $error) {
+            return serverErrorResponse($error->getMessage());
+        }
+        return swcResponse($user->toArray());
+
     }
 
     /**
      * @param User $user
-     * @return Response
+     * @return JsonResponse
      * @throws \Throwable
      */
-    public function destroy(User $user): Response
+    public function destroy(User $user): JsonResponse
     {
-        $user->deleteOrFail();
-        return response(null, ResponseAlias::HTTP_NO_CONTENT);
+        try {
+            $user->deleteOrFail();
+        } catch (\Throwable $error) {
+            return serverErrorResponse($error->getMessage());
+        }
+        return swcResponse([], ResponseAlias::HTTP_NO_CONTENT);
     }
 }

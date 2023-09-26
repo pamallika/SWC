@@ -24,7 +24,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'login' => 'required|string|unique:users',
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', Rules\Password::defaults()],
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'birthday' => 'nullable|date',

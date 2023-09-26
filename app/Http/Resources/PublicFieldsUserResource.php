@@ -5,14 +5,14 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PublicFieldsUserResource extends JsonResource
+class PublicFieldsUserResource extends BasicApiResource
 {
     /**
      * Transform the resource into an array.
      *
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array
+    public function toArray(?Request $request = null): array
     {
         return [
             'id' => $this->id,

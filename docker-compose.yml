@@ -10,7 +10,7 @@ services:
             - "8876:80"
         depends_on:
             - app
-        container_name: swc_nginx
+        container_name: swc-nginx
 
     app:
         build:
@@ -18,11 +18,15 @@ services:
             dockerfile: ./_docker/Dockerfile
         volumes:
             - ./:/var/www
-        container_name: swc_app
+        container_name: swc-app
     mysql:
         image: mysql:8
         ports:
             - "3306:3306"
         environment:
             - MYSQL_ROOT_PASSWORD=root
-        container_name: swc_mysql
+        container_name: swc-mysql
+        networks:
+            - swc-db-network
+networks:
+    swc-db-network:

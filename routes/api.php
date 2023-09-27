@@ -13,8 +13,15 @@ Route::middleware('guest')->group(function () {
         ->name('api.login');
 });
 Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('events', EventController::class);
-    Route::resource('users', UserController::class)->only(['show', 'update', 'destroy']);
+    Route::get('users/me', [UserController::class, 'getAuthUser']);
+    Route::get('events', [EventController::class, 'index']);
+    Route::get('events/{event}', [EventController::class, 'show']);
+    Route::post('events', [EventController::class, 'store']);
+    Route::put('events/{event}', [EventController::class, 'update']);
+    Route::delete('events/{event}', [EventController::class, 'destroy']);
+    Route::get('users/{user}', [UserController::class, 'show']);
+    Route::put('users/{user}', [UserController::class, 'update']);
+    Route::delete('users/{user}', [UserController::class, 'destroy']);
     Route::resource('user-event', UserEventController::class)->only(['show', 'store', 'destroy']);
 });
 Route::post('/login', [UserController::class, 'login']);

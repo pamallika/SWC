@@ -22,7 +22,7 @@ class StoreEventRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'creator_id' => 'required|int',
+            'user_id' => 'required|int',
             'title' => 'required|string',
             'descr' => 'required|string',
         ];

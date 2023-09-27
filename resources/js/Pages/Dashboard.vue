@@ -1,11 +1,16 @@
 <script setup>
-import {Head} from '@inertiajs/vue3';
+import {Head, Link} from '@inertiajs/vue3';
 import EventList from "@/Components/EventList.vue";
 import EventData from "@/Components/EventData.vue";
 </script>
 
 <template>
     <Head title="Dashboard" />
+    <Link
+        :href="route('logout')"
+        class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+    >Выйти</Link
+    >
     <div class="content">
         <div class="left-sidebar">
             <div class="event-list all-event-list">
@@ -14,11 +19,11 @@ import EventData from "@/Components/EventData.vue";
             </div>
             <div class="event-list user-event-list">
                 <h2>Мои события</h2>
-                <EventList :events="events"></EventList>
+                <EventList :events="user.events"></EventList>
             </div>
         </div>
         <div class="main">
-            <EventData></EventData>
+            <EventData v-if="user" v-bind:event="event" :user="user"></EventData>
         </div>
     </div>
 </template>
@@ -27,26 +32,73 @@ import EventData from "@/Components/EventData.vue";
 export default {
     data() {
         return {
-            events: []
+            events: [],
+            user: [],
+            errors: [],
+            event: [],
+            pingerId: 0,
         }
     },
-    async mounted() {
-        const res = (await fetch('http://127.0.0.1:8000/api/events'));
-        this.events = await res.json();
+    mounted() {
+        this.getEvent();
+        this.getEvents();
+        this.getUser();
+    },
+    methods: {
+        showError(error) {
+            alert(error);
+        },
+        async getEvent(){
+            const responseEvent = await fetch('/events/1');
+            const resultEvent = await responseEvent.json();
+            if (resultEvent['error'] !== null) {
+                this.showError(resultEvent['error']);
+            }
+            this.event = resultEvent['result'];
+        },
+        async getEvents() {
+            const responseEvents = await fetch('/events');
+            const resultEvents = await responseEvents.json();
+            if (resultEvents['error'] !== null) {
+                this.showError(resultEvents['error']);
+            }
+            this.events = resultEvents['result'];
+        },
+        async getUser() {
+            const responseUser = await fetch('/users/me');
+            const resultUser = await responseUser.json();
+            if (resultUser['error'] !== null) {
+                this.showError(resultUser['error']);
+            }
+            this.user = resultUser['result'];
+        }
+    },
+    created() {
+        this.pingerId =setInterval(this.getEvent, 30000);
+    },
+    beforeUnmount() {
+        clearInterval(this.pingerId);
     }
 }
 </script>
 <style>
-.left-sidebar{
+.content{
     display: flex;
-    flex-direction: column;
+    padding: 0 1rem;
     margin: 1rem;
     border: 1px black solid;
+}
+.event-list .main{
+    min-height: 10vh;
+    margin: 10rem 0;
+    padding: 0 1rem;
+}
+.left-sidebar {
+    display: flex;
+    flex-direction: column;
     max-width: 25vw;
 }
-.event-list{
-    min-height: 10vh;
-    margin: 1rem 0;
-    padding: 0 1rem;
+.main {
+    margin-left: 2rem;
 }
 </style>

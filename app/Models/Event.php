@@ -9,7 +9,7 @@ class Event extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'creator_id',
+        'user_id',
         'title',
         'descr',
     ];
@@ -19,7 +19,7 @@ class Event extends Model
     }
 
     public function subscribers() {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'user_event');
     }
 
 }

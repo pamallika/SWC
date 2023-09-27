@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PublicFieldsUserResource extends BasicApiResource
+class ShowEventResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,12 @@ class PublicFieldsUserResource extends BasicApiResource
     {
         return [
             'id' => $this->id,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'events' => $this->events,
-            'subscribed_to' => $this->eventsSubscribedTo,
+            'user_id' => $this->user_id,
+            'title' => $this->title,
+            'descr' => $this->descr,
+            'subscribers' => $this->subscribers,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

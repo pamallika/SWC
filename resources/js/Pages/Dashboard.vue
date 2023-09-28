@@ -71,12 +71,14 @@ export default {
             this.user = resultUser['result'];
         },
         async getEvent(){
-            const responseEvent = await fetch('/events/' + this.event.id);
-            const resultEvent = await responseEvent.json();
-            if (resultEvent['error'] !== null) {
-                this.showError(resultEvent['error']);
+            if (this.events.length > 0) {
+                const responseEvent = await fetch('/events/' + this.event.id);
+                const resultEvent = await responseEvent.json();
+                if (resultEvent['error'] !== null) {
+                    this.showError(resultEvent['error']);
+                }
+                this.event = resultEvent['result'];
             }
-            this.event = resultEvent['result'];
         }
     },
     created() {

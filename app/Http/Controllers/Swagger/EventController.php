@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 /**
  * @OA\Post(
+ *      security={{"apiAuth":{}}},
  *      path="/api/events",
  *      summary="Create Event",
  *      tags={"Event"},
@@ -74,6 +75,7 @@ use App\Http\Controllers\Controller;
  *   )
  *
  * @OA\Get (
+ *        security={{"apiAuth":{}}},
  *        path="/api/events/{event}",
  *        summary="Get single Event by id",
  *        tags={"Event"},
@@ -109,6 +111,7 @@ use App\Http\Controllers\Controller;
  *    )
  *
  * @OA\Patch (
+ *         security={{"apiAuth":{}}},
  *         path="/api/events/{event}",
  *         summary="Patch Event by id",
  *         tags={"Event"},
@@ -155,6 +158,7 @@ use App\Http\Controllers\Controller;
  *     )
  *
  * @OA\Delete (
+ *         security={{"apiAuth":{}}},
  *         path="/api/events/{event}",
  *         summary="Delete Event by id",
  *         tags={"Event"},

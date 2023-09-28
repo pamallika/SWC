@@ -20,7 +20,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        return swcResponse(Event::all()->toArray());
+        return swcResponse(ShowEventResource::collection(Event::all())->resolve());
     }
 
     public function store(StoreEventRequest $request): JsonResponse

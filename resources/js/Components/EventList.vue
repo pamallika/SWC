@@ -1,6 +1,6 @@
 <template>
     <div class="event-item" v-for="event in events">
-        <EventMin :event="event"></EventMin>
+        <EventMin v-on:click="focusEvent(event)" :event="event"></EventMin>
     </div>
 </template>
 <script>
@@ -13,6 +13,11 @@ export default defineComponent({
     props: {
         events: Array
     },
+    methods: {
+        focusEvent(event) {
+            this.$emit('focusEvent', event);
+        }
+    }
 })
 </script>
 

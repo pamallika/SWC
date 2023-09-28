@@ -67,7 +67,6 @@ const submit = () => {
                         type="date"
                         class="mt-1 block w-full"
                         v-model="form.birthday"
-                        required
                         autofocus
                         autocomplete="login"
                 />

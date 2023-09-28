@@ -17,3 +17,4 @@ Swagger http://localhost:8000/api/documentation
 Backend: PHP + Laravel  
 Frontend: Vue  
 Auth: Web - with Token Coockie, Api with Bearer token  
+Схема БД https://drive.google.com/file/d/1-BXy25y3afz8Qfu4YkWxFVwmdeTfngMp/view?usp=sharing  

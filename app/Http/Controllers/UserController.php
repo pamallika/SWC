@@ -36,6 +36,7 @@ class UserController extends Controller
         }
         return swcResponse(['token' => $token]);
     }
+
     public function getAuthUser(): JsonResponse
     {
         return swcResponse(PublicFieldsUserResource::make(Auth::user())->toArray());

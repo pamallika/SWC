@@ -8,4 +8,5 @@ npm run dev
 docker-compose up -d
 php artisan serve
 
-Документация к api будет чуть позже
+Swagger (http://localhost:8000/api/documentation)http://localhost:8000/api/documentation
+    Токен в Swagger вставлять вместе с Bearer -> Bearer ...

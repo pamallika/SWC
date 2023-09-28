@@ -30,37 +30,36 @@ export default defineComponent({
         user: Object
     },
     data() {
-        return {
-            isSubscriber: false,
-            isCreator: this.event.user_id === this.user.id,
-        }
     },
     mounted() {
-        if (this.event.length !== 0) {
-            this.setIsSubscriber()
-        }
     },
     computed: {
+        isShow : function () {
+            return this.event.length > 0;
+        },
         isSubscriber: function () {
-            return this.isSubscriber;
+            return this.setIsSubscriber();
         },
         isCreator: function () {
-            return this.isCreator;
+            return this.setIsCreator();
         },
     },
 
     methods: {
         setIsSubscriber() {
-            this.event.subscribers.forEach(subscriber => {
-                if (subscriber.id === this.user.id) {
-                    this.isSubscriber = true;
-                }
-            })
+            if (this.event !== []) {
+                this.event.subscribers.forEach((subscriber) => {
+                    return subscriber.pivot.user_id === this.user.id
+                })
+            }
+            return false;
+        },
+        setIsCreator() {
+            return this.event.user_id === this.user.id
         },
         async showSubscriber(subscriber) {
             let response = 'Имя: ' + subscriber.first_name + '  Фамилия: ' + subscriber.last_name + '  Зарегистрирован с: ' +  new Date(subscriber.created_at).toDateString();
             alert(response)
-            console.log(subscriber.first_name);
         }
 
 

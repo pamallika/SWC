@@ -15,11 +15,11 @@ import EventData from "@/Components/EventData.vue";
         <div class="left-sidebar">
             <div class="event-list all-event-list">
                 <h2>Все события</h2>
-                <EventList :events="events"></EventList>
+                <EventList v-on:focusEvent="changeEvent" :events="events"></EventList>
             </div>
             <div class="event-list user-event-list">
                 <h2>Мои события</h2>
-                <EventList :events="user.events"></EventList>
+                <EventList v-on:focusEvent="changeEvent" :events="user.events"></EventList>
             </div>
         </div>
         <div class="main">
@@ -40,21 +40,16 @@ export default {
         }
     },
     mounted() {
-        this.getEvent();
         this.getEvents();
         this.getUser();
     },
     methods: {
+        changeEvent(event) {
+            console.log('change', event);
+            this.event = event
+        },
         showError(error) {
             alert(error);
-        },
-        async getEvent(){
-            const responseEvent = await fetch('/events/1');
-            const resultEvent = await responseEvent.json();
-            if (resultEvent['error'] !== null) {
-                this.showError(resultEvent['error']);
-            }
-            this.event = resultEvent['result'];
         },
         async getEvents() {
             const responseEvents = await fetch('/events');
@@ -63,6 +58,9 @@ export default {
                 this.showError(resultEvents['error']);
             }
             this.events = resultEvents['result'];
+            if (this.events.length > 0) {
+                this.event = resultEvents['result'][0];
+            }
         },
         async getUser() {
             const responseUser = await fetch('/users/me');
@@ -71,6 +69,14 @@ export default {
                 this.showError(resultUser['error']);
             }
             this.user = resultUser['result'];
+        },
+        async getEvent(){
+            const responseEvent = await fetch('/events/' + this.event.id);
+            const resultEvent = await responseEvent.json();
+            if (resultEvent['error'] !== null) {
+                this.showError(resultEvent['error']);
+            }
+            this.event = resultEvent['result'];
         }
     },
     created() {

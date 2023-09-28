@@ -8,17 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'user_id',
         'title',
         'descr',
     ];
 
-    public function creator() {
+    public function creator()
+    {
         return $this->hasOne(User::class);
     }
 
-    public function subscribers() {
+    public function subscribers()
+    {
         return $this->belongsToMany(User::class, 'user_event');
     }
 

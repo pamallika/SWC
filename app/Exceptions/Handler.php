@@ -20,6 +20,7 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
+
     public function render($request, Throwable $e)
     {
         return swcResponse([], ResponseAlias::HTTP_INTERNAL_SERVER_ERROR, $e->getMessage());

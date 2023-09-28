@@ -28,7 +28,7 @@ class EventController extends Controller
         $data = $request->validated();
         try {
             $event = Event::create($data);
-        }catch (\Throwable $error) {
+        } catch (\Throwable $error) {
             return serverErrorResponse($error->getMessage());
         }
         return swcResponse($event->toArray());
@@ -57,7 +57,7 @@ class EventController extends Controller
         }
         try {
             $event->deleteOrFail();
-        }catch (\Throwable $error) {
+        } catch (\Throwable $error) {
             return serverErrorResponse($error->getMessage());
         }
         return swcResponse([], ResponseAlias::HTTP_NO_CONTENT);

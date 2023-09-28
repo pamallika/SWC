@@ -6,6 +6,7 @@ use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserEventController;
 use Illuminate\Support\Facades\Route;
+
 Route::middleware('guest')->group(function () {
     Route::post('register', [RegisteredUserController::class, 'store'])
         ->name('api.register');

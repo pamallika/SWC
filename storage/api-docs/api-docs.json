@@ -170,7 +170,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
             }
         },
         "/api/events/{event}": {
@@ -248,7 +253,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -268,7 +278,12 @@
                     "204": {
                         "description": "No Content"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
             },
             "patch": {
                 "tags": [
@@ -369,7 +384,437 @@
                             }
                         }
                     }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "login": {
+                                                "type": "string",
+                                                "example": "alex"
+                                            },
+                                            "password": {
+                                                "type": "string",
+                                                "example": "qwerty"
+                                            },
+                                            "first_name": {
+                                                "type": "string",
+                                                "example": "Alexandr"
+                                            },
+                                            "last_name": {
+                                                "type": "string",
+                                                "example": "Fedorenko"
+                                            },
+                                            "birthday": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "01.01.2001"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string",
+                                                    "example": "1|rT3ngvBWTPqWAwmBumUemIHCEswty8UqViFcN7Th209bb8e1"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
                 }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "login": {
+                                                "type": "string",
+                                                "example": "alex"
+                                            },
+                                            "password": {
+                                                "type": "string",
+                                                "example": "qwerty"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "integer",
+                                                    "example": "1|rT3ngvBWTPqWAwmBumUemIHCEswty8UqViFcN7Th209bb8e1"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/{user}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID user",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "first_name": {
+                                                    "type": "string",
+                                                    "example": "Alexandr"
+                                                },
+                                                "last_name": {
+                                                    "type": "string",
+                                                    "example": "Fedorenko"
+                                                },
+                                                "events": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "user_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "First Event"
+                                                            },
+                                                            "descr": {
+                                                                "type": "string",
+                                                                "example": "First Event Description"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID User",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID user",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "anyOf": [
+                                    {
+                                        "properties": {
+                                            "login": {
+                                                "type": "string",
+                                                "example": "root"
+                                            },
+                                            "password": {
+                                                "type": "string",
+                                                "example": "qwertyui"
+                                            },
+                                            "first_name": {
+                                                "type": "string",
+                                                "example": "Ivan"
+                                            },
+                                            "last_name": {
+                                                "type": "string",
+                                                "example": "Ivanov"
+                                            },
+                                            "birthday": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "01.01.2001"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "First Event"
+                                                    },
+                                                    "descr": {
+                                                        "type": "string",
+                                                        "example": "First Event Description"
+                                                    },
+                                                    "birthday": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "01.01.2001"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
             }
         }
     },
@@ -398,7 +843,7 @@
         "securitySchemes": {
             "apiAuth": {
                 "type": "apiKey",
-                "description": "!!!! ENTER TOKEN FORMAT with Bearer(Bearer token)",
+                "description": "!!!! ENTER TOKEN FORMAT with Bearer -> (Bearer token)",
                 "name": "Authorization",
                 "in": "header"
             }

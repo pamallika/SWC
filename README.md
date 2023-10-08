@@ -1,4 +1,4 @@
-# Тестовое задание на позицию Backend Php(Laravel) developer  
+Тестовое задание на позицию Backend Php(Laravel) developer  
 Разработать RESTful API для:  
 а) регистрация пользователя;  
 b) авторизация пользователя;  
